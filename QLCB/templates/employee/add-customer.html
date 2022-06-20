@@ -4,6 +4,7 @@
 <link href="../static/css/AddCustomer.css" rel="stylesheet"/>
 <div class="forms">
     <form class="form" method="post">
+		<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         {% if err %}
         <div class="alert alert-danger text-center"> {{err}}</div>
         {% elif msg %}

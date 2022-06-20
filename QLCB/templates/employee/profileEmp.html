@@ -6,6 +6,7 @@
 
 <div class="container rounded bg-white">
     <form action="" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <div class="row">
             <div class="col-md-4 border-right">
                 <div class="d-flex flex-column align-items-center p-3 py-5">

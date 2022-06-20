@@ -17,6 +17,7 @@
         {% endif %}
         <form action="" method="post"
               oninput='conPassword.setCustomValidity(conPassword.value != newPassword.value ? "Passwords do not match." : "")'>
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <label>Old password</label>
             <input type="password" class="form-control" name="oldPassword" placeholder="Enter old password" required>
 

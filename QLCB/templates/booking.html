@@ -13,6 +13,7 @@
       noBusiness.setCustomValidity("");
       cid.setCustomValidity("");'
       onsubmit="return checkBooking({{flight.noEconomyClass - slot['economy']}}, {{flight.noBusinessClass-slot['business']}})">
+	<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <div class="row">
         <div class="col-md-7 border-right">
             <h2 class="text-right">BOOKING DETAIL</h2>

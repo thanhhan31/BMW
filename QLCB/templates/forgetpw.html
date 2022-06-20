@@ -11,6 +11,7 @@
                     <div class="login-space">
 
                         <form action="" method="post" oninput='repassword.setCustomValidity(password.value != repassword.value ? "Passwords do not match." : "")'>
+							<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                             <div class="login">
                                 <div class="group"><label class="label">Phone number</label> <input name="phone" type="text"
                                                                                              class="input"
