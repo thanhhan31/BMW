@@ -13,6 +13,18 @@ import base64
 from flask_login import current_user, login_user, login_required
 from QLCB.adminis import *
 
+def prepare_response(res_object, status_code):
+    response = flask.jsonify(res_object)
+    response.headers.set('Access-Control-Allow-Origin', '*')
+    response.headers.set('Access-Control-Allow-Methods', 'GET, POST')
+    return response, status_code
+
+@app.after_request
+def apply_caching(response):
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    return response
+
 @app.route('/')
 def home():
     return redirect(url_for('homeCus'))
