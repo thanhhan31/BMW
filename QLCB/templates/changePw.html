@@ -22,10 +22,23 @@
             <input type="password" class="form-control" name="oldPassword" placeholder="Enter old password" required>
 
             <label>New password</label>
-            <input type="password" class="form-control" name="newPassword" placeholder="Enter new password" required>
+            <input type="password"
+                    class="form-control" 
+                    name="newPassword" 
+                    pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+                    title="Minimum eight characters, at least one letter, one number and one special character"
+                    placeholder="Enter new password"
+                    required>
 
             <label>Confirm password</label>
-            <input type="password" class="form-control" name="conPassword" placeholder="Confirm password" required>
+            <input type="password"
+                    class="form-control"
+                    name="conPassword"
+                    pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+                    title="Minimum eight characters, at least one letter, one number and one special character"
+                    placeholder="Confirm password"
+                    required>
+			
             <div class="mt-5 text-center">
                 <button type="submit" class="btn btn-primary save-button">Save change</button>
             </div>
