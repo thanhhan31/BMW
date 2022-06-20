@@ -77,7 +77,15 @@ def login_employee():
             login_user(employee_user)
         else:
             return render_template('employee/login.html', error="Login failed!", isEmp=True)
-    return redirect(request.args.get('next') if request.args.get('next') else '/employee')
+    
+    next = request.args.get('next')
+    if next:
+        if 'http' in next or 'www' in next:
+            return "External redirect is not allowed!", 400
+        else:
+            return redirect(next)
+    else:
+        return redirect('/employee')
 
 @app.route('/employee-fgPassword', methods=['post', 'get'])
 def reset_employee_password():
@@ -129,7 +137,15 @@ def login_customer():
                 "id": user.id,
                 "customerName": user.customerName,
             }
-            return redirect(request.args.get('next', '/'))
+            
+            next = request.args.get('next')
+            if next:
+                if 'http' in next or 'www' in next:
+                    return "External redirect is not allowed!", 400
+                else:
+                    return redirect(next)
+            else:
+                return redirect('/')
         else:
             error = "Login failed!"
     else:
