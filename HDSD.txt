@@ -1,0 +1,21 @@
+Yêu cầu:
++ MySQL
++ Python 3
+
+Tạo database:
++ Đầu tiên ta khởi động MySQL Shell với tài khoản root bằng lệnh "mysql -u root"
++ Chạy lệnh "CREATE DATABASE qlcbdb;" để tạo database
+
+Cài đặt project:
++ Đầu tiên ta vào thư mục chứa thư mục QLCB của project
++ Chạy lệnh "pip install -r requirements.txt" để cài thư viện python
++ Thay đổi mật khẩu tài khoản root của MySQL tại QLCB/Database.py dòng 8 (mặc định mật khẩu của root là 123456)
++ Chạy lệnh "python -m QLCB.models" hoặc "python3 -m QLCB.models" nếu sử dụng Linux để tạo bảng cho database của website
++ Mở SQL Shell và chạy lệnh "mysql -u root -p qlcbdb < datadb.sql" để tạo dữ liệu cho database của website
++ Chạy lệnh "python -m QLCB.index" hoặc "python3 -m QLCB.index" nếu sử dụng Linux để khởi động website
++ Truy cập vào địa chỉ được hiển thị trên cửa sổ dòng lệnh khi khởi động website để truy cập website
+
+Tài khoản đăng nhập:
++ Hệ admin (/admin): Username: admin | Password: 123
++ Hệ người bán(/employee): Username: employee | Password: 123
++ Hệ người mua (/): Tạo tài khoản tại /signup
