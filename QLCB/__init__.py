@@ -13,9 +13,9 @@ KEY_EMPLOYEE_ROLE = "Employee"
 KEY_TICKET_TYPE_BUSINESS = "Business Class"
 KEY_TICKET_TYPE_ECONOMY = "Economy Class"
 
-# database = Database()
 db = Database.get_db()
 app = Database.app
+app.config["SESSION_COOKIE_SAMESITE"] = 'Lax'
 
 login = LoginManager(app=app)
 
