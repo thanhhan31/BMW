@@ -12,6 +12,20 @@ from hashlib import sha256
 import base64
 from flask_login import current_user, login_user, login_required
 from QLCB.adminis import *
+from flask import abort
+
+@app.errorhandler(505)
+def not_execute(e):
+    return render_template('/500.html')
+    
+@app.errorhandler(500)
+def internal_sv_error(e):
+    return render_template('/500.html')
+    
+@app.errorhandler(404)
+def not_found(e):
+    return render_template('/404.html')
+
 
 def prepare_response(res_object, status_code):
     response = flask.jsonify(res_object)
@@ -136,34 +150,37 @@ def reset_password():
 
 @app.route('/login', methods=['get', 'post'])
 def login_customer():
-    error = ""
-    if request.method == 'POST':
-        phone = request.form.get('phone')
-        password = request.form.get('password')
-        password = sha256((password + phone).encode('utf-8')).hexdigest()
-        user = db.session.query(Customers).filter(and_(
-            Customers.phone == phone,
-            Customers.password == password)).first()
-        if user: # nếu đăng nhập thành công
-            session['customer_acc'] = {
-                "id": user.id,
-                "customerName": user.customerName,
-            }
-            
-            next = request.args.get('next')
-            if next:
-                if 'http' in next or 'www' in next:
-                    return "External redirect is not allowed!", 400
+    try:
+        error = ""
+        if request.method == 'POST':
+            phone = request.form.get('phone')
+            password = request.form.get('password')
+            password = sha256((password + phone).encode('utf-8')).hexdigest()
+            user = db.session.query(Customers).filter(and_(
+                Customers.phone == phone,
+                Customers.password == password)).first()
+            if user: # nếu đăng nhập thành công
+                session['customer_acc'] = {
+                    "id": user.id,
+                    "customerName": user.customerName,
+                }
+                
+                next = request.args.get('next')
+                if next:
+                    if 'http' in next or 'www' in next:
+                        return "External redirect is not allowed!", 400
+                    else:
+                        return redirect(next)
                 else:
-                    return redirect(next)
+                    return redirect('/')
             else:
-                return redirect('/')
+                error = "Login failed!"
         else:
-            error = "Login failed!"
-    else:
-        if session.get('customer_acc'):
-            return redirect('/')
-    return render_template('/login.html', error=error)
+            if session.get('customer_acc'):
+                return redirect('/')
+        return render_template('/login.html', error=error)
+    except:
+        abort(505)
 
 @app.route('/signup', methods=['get','post'])
 def signup():
@@ -466,4 +483,4 @@ def about_us():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=False, host="0.0.0.0", port=5000)
