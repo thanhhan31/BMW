@@ -106,7 +106,7 @@ def login_employee():
     
     next = request.args.get('next')
     if next:
-        if 'http' in next or 'www' in next:
+        if (request.root_url not in next) and ('http' in next or 'www' in next):
             return "External redirect is not allowed!", 400
         else:
             return redirect(next)
@@ -167,7 +167,7 @@ def login_customer():
                 
                 next = request.args.get('next')
                 if next:
-                    if 'http' in next or 'www' in next:
+                    if (request.root_url not in next) and ('http' in next or 'www' in next):
                         return "External redirect is not allowed!", 400
                     else:
                         return redirect(next)
@@ -189,6 +189,7 @@ def signup():
     err = ''
     if request.method == "POST":
         data = request.form.copy()
+        data.pop('csrf_token', None)
         del data['repassword']
         try:
             if utils.add_customer(**data):
@@ -386,6 +387,7 @@ def add_customer():
     err = ''
     if request.method == "POST":
         data = request.form.copy()
+        data.pop('csrf_token', None)
         try:
             if utils.add_customer(**data, password=data['phone']):
                 msg = "Add customer success!"
@@ -436,6 +438,7 @@ def edit_employee_profile():
     mes = []
     if request.method == 'POST':
         data = request.form.copy()
+        data.pop('csrf_token', None)
         avatar = request.files['avatar']
         if avatar:
             info = cloudinary.uploader.upload(avatar)
@@ -459,6 +462,7 @@ def edit_customer_profile():
     error = ''
     if request.method == 'POST':
         data = request.form.copy()
+        data.pop('csrf_token', None)
         avatar = request.files['avatar']
         if avatar:
             info = cloudinary.uploader.upload(avatar)
