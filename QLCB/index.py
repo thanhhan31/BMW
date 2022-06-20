@@ -106,7 +106,7 @@ def login_employee():
     
     next = request.args.get('next')
     if next:
-        if (request.root_url not in next) and ('http' in next or 'www' in next):
+        if (request.root_url not in next) and ('http' in next or 'www' in next or '//' in next):
             return "External redirect is not allowed!", 400
         else:
             return redirect(next)
@@ -167,7 +167,7 @@ def login_customer():
                 
                 next = request.args.get('next')
                 if next:
-                    if (request.root_url not in next) and ('http' in next or 'www' in next):
+                    if (request.root_url not in next) and ('http' in next or 'www' in next or '//' in next):
                         return "External redirect is not allowed!", 400
                     else:
                         return redirect(next)
