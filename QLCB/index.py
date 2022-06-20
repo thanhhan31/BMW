@@ -301,12 +301,14 @@ def book_online(fid):
     msg = None
 
     if request.method == 'POST':
-        amount = request.form.get('total')
+        noEconomyClass=int(request.form.get('noEconomy'))
+        noBusinessClass=int(request.form.get('noBusiness'))
+        amount = noEconomyClass * flight.priceEconomyClass + noBusinessClass * flight.priceBusinessClass
         try:
-            a = utils.payByMomo(totalPrice=str(amount), domain=request.root_url)
+            a = utils.payByMomo(totalPrice=str(int(amount)), domain=request.root_url)
             if a['errorCode'] == 0:
-                if utils.add_booking(noEconomyClass=int(request.form.get('noEconomy')),
-                                     noBusinessClass=int(request.form.get('noBusiness')),
+                if utils.add_booking(noEconomyClass=noEconomyClass,
+                                     noBusinessClass=noBusinessClass,
                                      customer=utils.get_customers(session.get('customer_acc')['id']),
                                      employee=None,
                                      flight=flight,
